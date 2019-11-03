@@ -11,13 +11,14 @@ public enum node_type
 public class Node
 {
     public node_type nodeType;
-    public PhysicsBody physicsBody;
-    public PseudoPosition pseudoPosition;
+    //   public PhysicsBody physicsBody;
+    //   public PseudoPosition pseudoPosition;
+
 
     public Node()
     {
-        pseudoPosition = new PseudoPosition();
-        physicsBody = new PhysicsBody(pseudoPosition);
+ //       pseudoPosition = new PseudoPosition();
+   //     physicsBody = new PhysicsBody(pseudoPosition);
         
     }
 
@@ -26,6 +27,12 @@ public class Node
 
 public class NodeConnection
 {
+    public NodeConnection(int node1, int node2)
+    {
+        nodeIndex1 = node1;
+        nodeIndex2 = node2;
+    }
+
     int nodeIndex1;
     int nodeIndex2;
 }
