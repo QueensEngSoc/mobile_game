@@ -15,6 +15,18 @@ public class vehicle_desc
 public class GameManager : MonoBehaviour
 {
     public GameObject vehiclePrefab;
+    public static GameManager gm;
+
+    private void Awake()
+    {
+        if (gm == null)
+        {
+            gm = this; // this instance of the GameManager is now the one true GameManager
+            DontDestroyOnLoad(gameObject); // make sure it persists through scene changes
+        }
+        else
+            Destroy(gameObject); // this is NOT the true GameManager, kill it now
+    }
 
     // Start is called before the first frame update
     void Start()
