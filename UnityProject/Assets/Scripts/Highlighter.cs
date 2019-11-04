@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Highlighter : MonoBehaviour
 {
+    public VehicleBuilder vehicle;
     private Renderer renderer;
     public Color ogColor;
     bool selected;
@@ -13,8 +14,18 @@ public class Highlighter : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        renderer.material.color = Color.yellow;
-    } private void OnMouseExit()
+        if (vehicle.state == State.deletingNode)
+        {
+            renderer.material.color = Color.red;
+        }
+        else
+        {
+            renderer.material.color = Color.yellow;
+
+        }
+
+    }
+    private void OnMouseExit()
     {
         if (!selected)
         {

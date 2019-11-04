@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public enum State
+{
+    idle,
+    choosingNode,
+    deletingNode
+}
 public class VehicleBuilder : MonoBehaviour
 {
     public Node rootNode; 
@@ -13,12 +19,13 @@ public class VehicleBuilder : MonoBehaviour
     Highlighter rootHighlighter;
     public Camera camera;
     public GameObject root;
+    public GameObject cubePreFab;
     public Vector3 newNodePosition;
-    int addingNode; // for switch case
+    public State state; // for switch case
     public Text Instructions;
     void Start()
     {
-        addingNode = 1;
+        state = State.idle;
         Instructions.text = "";
         /*
         rootNode = new Node();
@@ -29,19 +36,33 @@ public class VehicleBuilder : MonoBehaviour
 
     void Update()
     {
-        switch (addingNode)
+        if (Input.GetButtonDown("Fire1"))
         {
-            case 1:
-                ChooseRoot();
-                break;
-            case 2:
-                ChooseSecondNode();
-                break;
+            state = State.deletingNode;
+        }
+        else if (Input.GetButtonUp("Fire1"))
+        {
+            state = State.idle;
+
         }
 
+        Debug.Log(state);
+
+        switch (state)
+        {
+            case State.idle:
+                ChooseRoot(false);
+                break;
+            case State.choosingNode:
+                ChooseSecondNode();
+                break;
+            case State.deletingNode:
+                ChooseRoot(true);
+                break;
+        }
     }
 
-    public void ChooseRoot()
+    public void ChooseRoot(bool deleting)
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -51,10 +72,21 @@ public class VehicleBuilder : MonoBehaviour
                 if (hit.transform.name == "Sphere")
                 {
                     root = hit.transform.parent.gameObject;
-                    rootHighlighter = hit.transform.GetComponent<Highlighter>();
-                    rootHighlighter.select();
-                    Instructions.text = "Place New Node";
-                    addingNode=2;
+                    if (!deleting)
+                    {
+                        rootHighlighter = hit.transform.GetComponent<Highlighter>();
+                        rootHighlighter.select();
+                        Instructions.text = "Place New Node";
+                        state = State.choosingNode;
+                    } else
+                    {
+                        Destroy(root);
+                    }
+                   
+                } else if (deleting && hit.transform.name == "Cube(Clone)")
+                {
+                    Destroy(hit.transform.gameObject);
+
                 }
             }
         }
@@ -83,7 +115,7 @@ public class VehicleBuilder : MonoBehaviour
 
             }
             Instructions.text = "";
-            addingNode = 1;
+            state = State.idle;
             rootHighlighter.unSelect();
 
         }
@@ -91,7 +123,7 @@ public class VehicleBuilder : MonoBehaviour
 
     void addVisibleConnection(GameObject node1, GameObject node2)
     {
-        GameObject newCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        GameObject newCube = Instantiate(cubePreFab);
         Vector3 n1Pos = node1.transform.position;
         Vector3 n2Pos = node2.transform.position;
 
@@ -100,8 +132,7 @@ public class VehicleBuilder : MonoBehaviour
         newCube.transform.localScale = new Vector3(width, width, (n1Pos-n2Pos).magnitude);
     }
     public float width;
-
-
+ 
     Vector3 getNewNodePosition(Ray ray) 
     {
 
