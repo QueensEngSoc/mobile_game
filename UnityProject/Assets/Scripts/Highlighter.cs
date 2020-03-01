@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Highlighter : MonoBehaviour
 {
+    public CameraMovement camControl;
     public VehicleBuilder vehicle;
     private Renderer renderer;
     public Color ogColor;
@@ -21,16 +22,13 @@ public class Highlighter : MonoBehaviour
         else
         {
             renderer.material.color = Color.yellow;
-
         }
-
     }
     private void OnMouseExit()
     {
         if (!selected)
         {
             renderer.material.color = ogColor;
-
         } else
         {
             renderer.material.color = Color.green;
@@ -44,7 +42,11 @@ public class Highlighter : MonoBehaviour
     {
         selected = true;
         renderer.material.color = Color.green;
+        camControl.toLook = transform.position;
     }
-
+    public void Ghost()
+    {
+        renderer.material.color = Color.red;//new Color(ogColor.r, ogColor.g, ogColor.b, .1f);
+    }
 
 }

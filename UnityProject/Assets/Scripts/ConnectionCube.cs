@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConnectionHighlighter : MonoBehaviour
+public class ConnectionCube : MonoBehaviour
 {
     public VehicleBuilder vehicle;
-    private Renderer renderer;
+    Renderer renderer;
     public Color ogColor;
     bool selected;
+    GameObject cube;
+
     private void Start()
     {
         renderer = GetComponent<Renderer>();
+        
     }
     private void OnMouseEnter()
     {
@@ -24,6 +27,6 @@ public class ConnectionHighlighter : MonoBehaviour
     private void OnMouseExit()
     {
          renderer.material.color = ogColor;
-     }
+    }
 
 }
