@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4791778589782546749}
   - component: {fileID: 4791778589782546750}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Node
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 34450746e6cd38b4a81265386a8f15ac, type: 2}
+  - {fileID: 2100000, guid: 04cb46c6a7c50a44c87d23626f0f81d2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
